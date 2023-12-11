@@ -7,7 +7,7 @@ create table book (
     author VARCHAR(50) NOT NULL,
     category VARCHAR(50) NOT NULL,
     tag VARCHAR(50) NOT NULL,
-    isbn VARCHAR(16) NOT NULL UNIQUE,
+    isbn VARCHAR(16) NOT NULL,
     available BOOLEAN NOT NULL
 ) engine=InnoDB;
 

@@ -1,6 +1,7 @@
 package com.wsb.libraryapi.services;
 
 import com.wsb.libraryapi.dtos.UserDTO;
+import com.wsb.libraryapi.entities.User;
 import com.wsb.libraryapi.mappers.UserMapper;
 import com.wsb.libraryapi.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,15 +24,12 @@ public class UserServiceImpl implements UserService {
                 userRepository.findById(UUID.fromString(id))
                         .orElseThrow(EntityNotFoundException::new)
         );
-        foundUser.setPassword(null);
         return foundUser;
     }
 
     @Override
-    public UserDTO saveUser(UserDTO userDTO) {
-        userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-        UserDTO createdUser = userMapper.toDto(userRepository.save(userMapper.toEntity(userDTO)));
-        createdUser.setPassword(null);
-        return createdUser;
+    public User getUser(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(EntityNotFoundException::new);
     }
 }

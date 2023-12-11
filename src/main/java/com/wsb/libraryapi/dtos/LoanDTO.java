@@ -5,30 +5,24 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Builder
 @Data
-public class BookDTO {
+public class LoanDTO {
+
     private UUID id;
 
     @NotNull
     @NotBlank
-    private String name;
+    private Timestamp return_date;
 
     @NotNull
     @NotBlank
-    private String author;
+    private String user_id;
 
     @NotNull
     @NotBlank
-    private String category;
-
-    private String tag;
-
-    @NotNull
-    @NotBlank
-    private String isbn;
-
-    private Boolean available;
+    private String book_id;
 }

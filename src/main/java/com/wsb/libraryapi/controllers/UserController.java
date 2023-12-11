@@ -19,11 +19,4 @@ public class UserController {
     public ResponseEntity<UserDTO> findUserById(@PathVariable String userId) {
         return new ResponseEntity<>(userService.findUserById(userId), HttpStatus.OK);
     }
-
-    @PostMapping(USER_PATH)
-    public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO) {
-        return new ResponseEntity<>(userService.saveUser(userDTO), HttpStatus.CREATED);
-    }
-
-    User
 }
