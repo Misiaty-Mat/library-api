@@ -14,15 +14,11 @@ public class LoanDTO {
 
     private UUID id;
 
-    @NotNull
-    @NotBlank
     private Timestamp return_date;
 
-    @NotNull
-    @NotBlank
-    private String user_id;
+    private UUID user_id;
 
     @NotNull
     @NotBlank
-    private String book_id;
+    private UUID book_id;
 }

@@ -13,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -24,11 +25,11 @@ import java.util.List;
 public class LibraryApiApplication implements CommandLineRunner {
 
 	@Autowired
+	PasswordEncoder passwordEncoder;
+	@Autowired
 	BookRepository bookRepository;
-
 	@Autowired
 	UserRepository userRepository;
-
 	@Autowired
 	LoanRepository loanRepository;
 
@@ -44,7 +45,7 @@ public class LibraryApiApplication implements CommandLineRunner {
 					.role(Role.ADMIN)
 					.name("Adam")
 					.surname("Kowalski")
-					.password("admin")
+					.password(passwordEncoder.encode("admin"))
 					.build();
 
 			User user2 = User.builder()
@@ -52,7 +53,7 @@ public class LibraryApiApplication implements CommandLineRunner {
 					.role(Role.WORKER)
 					.name("Patrycja")
 					.surname("Nowak")
-					.password("worker")
+					.password(passwordEncoder.encode("worker"))
 					.build();
 
 			User user3 = User.builder()
@@ -60,7 +61,7 @@ public class LibraryApiApplication implements CommandLineRunner {
 					.role(Role.CUSTOMER)
 					.name("Michał")
 					.surname("Nowak")
-					.password("customer")
+					.password(passwordEncoder.encode("customer"))
 					.build();
 
 			userRepository.saveAll(List.of(user1, user2, user3));

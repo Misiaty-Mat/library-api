@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/books")
@@ -18,14 +19,17 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    public List<BookDTO> getBooks() {
-        return bookService.listBooks();
+    public ResponseEntity<List<BookDTO>> getBooks(@RequestParam(required = false) String category) {
+        return ResponseEntity.ok(bookService.listBooks(category));
+    }
+
+    @GetMapping("/{bookId}")
+    public ResponseEntity<BookDTO> getBook(@PathVariable("bookId") UUID id) {
+        return ResponseEntity.ok(bookService.getBookById(id));
     }
 
     @PostMapping
     public ResponseEntity<BookDTO> postBook(@RequestBody BookDTO bookDTO) {
-        BookDTO savedBook = bookService.saveBook(bookDTO);
-
-        return new ResponseEntity(savedBook, HttpStatus.CREATED);
+        return new ResponseEntity<>(bookService.saveBook(bookDTO), HttpStatus.CREATED);
     }
 }
