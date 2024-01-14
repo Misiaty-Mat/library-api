@@ -1,6 +1,7 @@
 package com.wsb.libraryapi.services;
 
 import com.wsb.libraryapi.dtos.LoanDTO;
+import com.wsb.libraryapi.dtos.LoanDetailsDto;
 import com.wsb.libraryapi.entities.Book;
 import com.wsb.libraryapi.entities.Loan;
 import com.wsb.libraryapi.mappers.LoanMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,17 +26,27 @@ public class LoanServiceImpl implements LoanService {
     private final UserService userService;
 
     @Override
-    public List<LoanDTO> listLoans() {
+    public List<LoanDetailsDto> listLoans() {
         return mapLoansToDto(loanRepository.findAll());
     }
 
     @Override
-    public List<LoanDTO> listLoansOfCurrentUser() {
+    public List<LoanDetailsDto> listLoansOfCurrentUser() {
         return mapLoansToDto(loanRepository.findByUser(userService.getCurrentUser()));
     }
 
     @Override
-    public LoanDTO saveLoan(LoanDTO loanDTO) {
+    public void deleteLoan(UUID loanId) {
+        Loan loan = loanRepository.findById(loanId).orElseThrow(EntityNotFoundException::new);
+        Book book = loan.getBook();
+        book.setAvailable(true);
+        loan.setReturned(true);
+        bookRepository.save(book);
+        loanRepository.save(loan);
+    }
+
+    @Override
+    public LoanDetailsDto saveLoan(LoanDTO loanDTO) {
         if (loanDTO.getReturn_date() == null) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_YEAR, 14);
@@ -42,6 +54,7 @@ public class LoanServiceImpl implements LoanService {
         }
 
         Loan loan = loanMapper.toEntity(loanDTO);
+        loan.setReturned(false);
         Book book = bookRepository.findById(loanDTO.getBook_id()).orElseThrow(EntityNotFoundException::new);
         book.setAvailable(false);
         bookRepository.save(book);
@@ -50,13 +63,8 @@ public class LoanServiceImpl implements LoanService {
         return loanMapper.toDto(loanRepository.save(loan));
     }
 
-    private List<LoanDTO> mapLoansToDto(List<Loan> loans) {
+    private List<LoanDetailsDto> mapLoansToDto(List<Loan> loans) {
         return loans.stream()
-                .map(loan -> {
-                    LoanDTO loanDTO = loanMapper.toDto(loan);
-                    loanDTO.setBook_id(loan.getBook().getId());
-                    loanDTO.setUser_id(loan.getUser().getId());
-                    return loanDTO;
-                }).collect(Collectors.toList());
+                .map(loanMapper::toDto).collect(Collectors.toList());
     }
 }

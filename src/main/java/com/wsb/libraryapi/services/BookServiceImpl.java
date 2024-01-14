@@ -36,11 +36,17 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDTO saveBook(BookDTO bookDTO) {
+        bookDTO.setAvailable(true);
         return bookMapper.toDto(
             bookRepository.save(
                     bookMapper.toEntity(bookDTO)
             )
         );
+    }
+
+    @Override
+    public List<String> getCategories() {
+        return bookRepository.findDistinctCategories();
     }
 
 }

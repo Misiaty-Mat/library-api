@@ -32,9 +32,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findUserById(String id) {
+    public UserDTO findUserById(UUID id) {
         return userMapper.toDto(
-                userRepository.findById(UUID.fromString(id))
+                userRepository.findById(id)
                         .orElseThrow(EntityNotFoundException::new)
         );
     }
@@ -42,6 +42,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> listUsers() {
         return userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteUser(UUID id) {
+        userRepository.deleteById(id);
     }
 
     public User getCurrentUser() {

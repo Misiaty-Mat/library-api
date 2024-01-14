@@ -1,6 +1,7 @@
 package com.wsb.libraryapi.mappers;
 
 import com.wsb.libraryapi.dtos.LoanDTO;
+import com.wsb.libraryapi.dtos.LoanDetailsDto;
 import com.wsb.libraryapi.entities.Loan;
 import org.mapstruct.*;
 
@@ -8,7 +9,7 @@ import org.mapstruct.*;
 public interface LoanMapper {
     Loan toEntity(LoanDTO loanDTO);
 
-    LoanDTO toDto(Loan loan);
+    LoanDetailsDto toDto(Loan loan);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Loan partialUpdate(LoanDTO loanDTO, @MappingTarget Loan loan);

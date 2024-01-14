@@ -10,9 +10,10 @@ import java.util.UUID;
 
 public interface BookRepository extends JpaRepository<Book, UUID> {
 
-    @Query("select b from Book b where b.available = false")
-    Optional<Book> findByAvailableFalse();
-
     List<Book> findAllByCategoryAllIgnoreCase(String category);
 
+    Book findBookByAvailableFalse();
+
+    @Query("select distinct b.category from Book b")
+    List<String> findDistinctCategories();
 }

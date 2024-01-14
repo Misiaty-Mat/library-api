@@ -32,4 +32,9 @@ public class BookController {
     public ResponseEntity<BookDTO> postBook(@RequestBody BookDTO bookDTO) {
         return new ResponseEntity<>(bookService.saveBook(bookDTO), HttpStatus.CREATED);
     }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<String>> getCategories() {
+        return ResponseEntity.ok(bookService.getCategories());
+    }
 }

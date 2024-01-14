@@ -27,6 +27,9 @@ public class Loan {
     @Column(name = "return_date", updatable = false)
     private Timestamp return_date;
 
+    @Column(name = "returned", nullable = false)
+    private Boolean returned;
+
     @ManyToOne
     private User user;
 

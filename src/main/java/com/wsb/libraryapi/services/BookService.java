@@ -10,4 +10,5 @@ public interface BookService {
     List<BookDTO> listBooks(String category);
     BookDTO getBookById(UUID id);
     BookDTO saveBook(BookDTO bookDTO);
+    List<String> getCategories();
 }

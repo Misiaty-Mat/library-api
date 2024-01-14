@@ -99,7 +99,7 @@ public class LibraryApiApplication implements CommandLineRunner {
 		}
 
 		if (loanRepository.count() == 0) {
-			Book book = bookRepository.findByAvailableFalse().get();
+			Book book = bookRepository.findBookByAvailableFalse();
 			User user = userRepository.findAll().get(0);
 
 			Calendar calendar = Calendar.getInstance();
@@ -107,6 +107,7 @@ public class LibraryApiApplication implements CommandLineRunner {
 
 			Loan loan = Loan.builder()
 					.return_date(new Timestamp(calendar.getTime().getTime()))
+					.returned(false)
 					.book(book)
 					.user(user)
 					.build();
