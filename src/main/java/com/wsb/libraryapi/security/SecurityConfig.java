@@ -28,7 +28,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(requestManager -> {
             requestManager.requestMatchers(AUTH_WHITELABEL_PATH).permitAll();
             requestManager.requestMatchers(HttpMethod.GET, "/api/v1/user/list").hasAuthority(Role.ADMIN.name());
-            requestManager.requestMatchers(HttpMethod.GET, "/api/v1/loans").hasAuthority(Role.ADMIN.name());
+            requestManager.requestMatchers(HttpMethod.GET, "/api/v1/loans").hasAnyAuthority(Role.ADMIN.name(), Role.WORKER.name());
             requestManager.requestMatchers(HttpMethod.GET, "/api/v1/books/**").permitAll();
             requestManager.anyRequest().authenticated();
         });

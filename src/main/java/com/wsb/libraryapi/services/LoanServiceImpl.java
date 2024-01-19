@@ -4,7 +4,9 @@ import com.wsb.libraryapi.dtos.LoanDTO;
 import com.wsb.libraryapi.dtos.LoanDetailsDto;
 import com.wsb.libraryapi.entities.Book;
 import com.wsb.libraryapi.entities.Loan;
+import com.wsb.libraryapi.entities.User;
 import com.wsb.libraryapi.mappers.LoanMapper;
+import com.wsb.libraryapi.mappers.UserMapper;
 import com.wsb.libraryapi.repositories.BookRepository;
 import com.wsb.libraryapi.repositories.LoanRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class LoanServiceImpl implements LoanService {
     private final LoanRepository loanRepository;
     private final LoanMapper loanMapper;
+    private final UserMapper userMapper;
     private final BookRepository bookRepository;
     private final UserService userService;
 
@@ -56,10 +59,15 @@ public class LoanServiceImpl implements LoanService {
         Loan loan = loanMapper.toEntity(loanDTO);
         loan.setReturned(false);
         Book book = bookRepository.findById(loanDTO.getBook_id()).orElseThrow(EntityNotFoundException::new);
+        User user = null;
+        if (loanDTO.getUser_id() != null) {
+            user = userMapper.toEntity(userService.findUserById(loanDTO.getUser_id()));
+        }
         book.setAvailable(false);
         bookRepository.save(book);
         loan.setBook(book);
-        loan.setUser(userService.getCurrentUser());
+
+        loan.setUser(user == null ? userService.getCurrentUser() : user);
         return loanMapper.toDto(loanRepository.save(loan));
     }
 
