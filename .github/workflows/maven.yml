@@ -19,8 +19,29 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: librarydb
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: password
+
+        ports:
+          - 3307:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    env:
+      DB_DATABASE: librarydb
+      DB_USER: root
+      DB_PASSWORD: password
+
     steps:
     - uses: actions/checkout@v4
+    - name: Set up MySQL
+      run: |
+        sudo /etc/init.d/mysql start
+        mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u ${{ env.DB_USER }} -p ${{ env.DB_PASSWORD }}
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
