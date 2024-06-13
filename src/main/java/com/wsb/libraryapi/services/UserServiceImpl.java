@@ -4,17 +4,10 @@ import com.wsb.libraryapi.dtos.UserDTO;
 import com.wsb.libraryapi.entities.User;
 import com.wsb.libraryapi.mappers.UserMapper;
 import com.wsb.libraryapi.repositories.UserRepository;
-import com.wsb.libraryapi.security.services.JwtService;
-import io.jsonwebtoken.Jwt;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 import java.util.UUID;

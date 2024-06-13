@@ -1,6 +1,5 @@
 package com.wsb.libraryapi.controllers;
 
-import com.wsb.libraryapi.dtos.UserDTO;
 import com.wsb.libraryapi.dtos.authentication.AuthenticationRequest;
 import com.wsb.libraryapi.dtos.authentication.AuthenticationResponse;
 import com.wsb.libraryapi.dtos.authentication.RegisterRequest;

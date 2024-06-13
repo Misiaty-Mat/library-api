@@ -1,7 +1,6 @@
 package com.wsb.libraryapi.services;
 
 import com.wsb.libraryapi.dtos.BookDTO;
-import com.wsb.libraryapi.entities.Book;
 
 import java.util.List;
 import java.util.UUID;

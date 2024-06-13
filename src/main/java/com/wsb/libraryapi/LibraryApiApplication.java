@@ -11,14 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication
@@ -38,8 +34,8 @@ public class LibraryApiApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
-		if (userRepository.count() == 0) {
+	public void run(String... args) {
+		if (userRepository.count() == 0 && !System.getenv("SPRING_ENV").equals("test")) {
 			User user1 = User.builder()
 					.email("admin@admin.com")
 					.role(Role.ADMIN)

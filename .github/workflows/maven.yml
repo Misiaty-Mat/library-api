@@ -13,6 +13,7 @@ env:
   MYSQL_USER: test_user
   MYSQL_PASSWORD: password
   MYSQL_HOST: mysql
+  SPRING_ENV: test
 on:
   push:
     branches: [ "master" ]
