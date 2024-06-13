@@ -73,6 +73,7 @@ public class LoanServiceImpl implements LoanService {
 
     private List<LoanDetailsDto> mapLoansToDto(List<Loan> loans) {
         return loans.stream()
-                .map(loanMapper::toDto).collect(Collectors.toList());
+                .map(loanMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

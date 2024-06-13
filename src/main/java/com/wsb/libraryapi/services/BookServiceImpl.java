@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
+
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
@@ -21,26 +22,24 @@ public class BookServiceImpl implements BookService {
     public List<BookDTO> listBooks(String category) {
         if (category == null) {
             return bookRepository.findAll().stream()
-                    .map(bookMapper::toDto).collect(Collectors.toList());
+                    .map(bookMapper::toDto)
+                    .collect(Collectors.toList());
         }
         return bookRepository.findAllByCategoryAllIgnoreCase(category).stream()
-                .map(bookMapper::toDto).collect(Collectors.toList());
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public BookDTO getBookById(UUID id) {
-        return bookMapper.toDto(
-                bookRepository.findById(id).orElseThrow(EntityNotFoundException::new)
+        return bookMapper.toDto(bookRepository.findById(id).orElseThrow(EntityNotFoundException::new)
         );
     }
 
     @Override
     public BookDTO saveBook(BookDTO bookDTO) {
         bookDTO.setAvailable(true);
-        return bookMapper.toDto(
-            bookRepository.save(
-                    bookMapper.toEntity(bookDTO)
-            )
+        return bookMapper.toDto(bookRepository.save(bookMapper.toEntity(bookDTO))
         );
     }
 
